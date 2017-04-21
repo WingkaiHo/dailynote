@@ -18,6 +18,8 @@
 - ip 地址段需要保留一些给cloudstack manager pod使用, 需要预留一段, 如图
    ![network-setup-1](png/netwokr-setup-1.png)
 
+- 然后按照要求填写vlan号段
+
 ### 1.2.2 POD 网络配置
 
 - 配置pod的名字
@@ -128,6 +130,21 @@ $ ssh -i /root/.ssh/id_rsa.cloud 169.254.0.54 -p 3922
 ### 1.8 添加虚拟机套餐
 
 - 进入页面Home-Service Offerings-Compute Offerings
+  ![VR-login](png/vr-login-1.png)
+
+### 2 cloudstack 维护
+
+### 2.1 清理cloudstack数据库
+
+```
+csmgr$ service cloudstack-management stop
+csmgr$ mysql -ucloud -pcs123 -e 'drop database cloud'
+csmgr$ mysql -ucloud -pcs123 -e 'drop database cloud_usage'
+csmgr$ cloudstack-setup-databases cloud:engine123@localhost --deploy-as=root:engine123
+csmgr$ rm -rf /var/log/cloud/management/*
+csmgr$ cloudstack-setup-management
+csmgr$ service cloudstack-management start
+```
 
 ### Bug in [centos7 agent]: unsupported configuration: CPU tuning is not available on this host
 
