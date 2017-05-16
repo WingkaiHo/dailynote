@@ -1,0 +1,35 @@
+192.168.24.2
+
+[root@host8 ~]# ip route
+172.17.0.0/16 dev docker0  proto kernel  scope link  src 172.17.0.1 
+172.18.0.0/16 dev br-9c722e71072b  proto kernel  scope link  src 172.18.0.1 
+192.168.0.0/16 dev enp2s0  proto kernel  scope link  src 192.168.20.8 
+blackhole 192.168.21.64/26  proto bird 
+blackhole 192.168.21.128/26  proto bird 
+blackhole 192.168.22.64/26  proto bird 
+192.168.22.66 dev cali2e83d409d11  scope link 
+192.168.24.2 dev calid5bda2a66b4  scope link 
+
+
+calid5bda2a66b4 
+
+[root@host8 ~]# ifconfig
+...
+
+calid5bda2a66b4: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet6 fe80::f8cc:b0ff:fea4:10e2  prefixlen 64  scopeid 0x20<link>
+        ether fa:cc:b0:a4:10:e2  txqueuelen 1000  (Ethernet)
+        RX packets 37360  bytes 4833448 (4.6 MiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 37855  bytes 3893626 (3.7 MiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+...
+
+
+[root@host8 ~]# ip link show
+...
+320: calid5bda2a66b4@if319: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP mode DEFAULT qlen 1000
+    link/ether fa:cc:b0:a4:10:e2 brd ff:ff:ff:ff:ff:ff link-netnsid 7
+
+...

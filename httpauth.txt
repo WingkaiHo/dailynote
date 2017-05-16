@@ -1,0 +1,33 @@
+1.使用apache自带的htpasswd创建密码文件;
+
+# htpasswd -c /home/lai/httpbasicpass admin
+
+然后两次输入密码即可。
+
+# more /home/lai/httpbasicpass          
+admin:dH84ghAVHay72
+
+ 
+
+ 
+
+2.在配置文件中最需要保护的部分<Directory>开启basic认证
+
+    <Directory /data/webroot/mail_admin >
+        AllowOverride All
+        Order allow,deny
+        Allow from all
+        AuthType Basic
+        AuthName "Restricted Mail Management System"
+        AuthUserFile /home/lai/httpbasicpass
+        Require user admin
+    </Directory>
+
+ 
+
+3.重启apache
+
+# /etc/init.d/apache2 restart  
+
+
+You must login to view this page.

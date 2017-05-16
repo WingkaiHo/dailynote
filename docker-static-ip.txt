@@ -1,0 +1,12 @@
+version: "2"
+services:
+  host1:
+    networks:
+      mynet:
+        ipv4_address: 172.25.0.101
+networks:
+  mynet:
+    driver: bridge
+    ipam:
+      config:
+      - subnet: 172.25.0.0/24

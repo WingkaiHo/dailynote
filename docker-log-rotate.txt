@@ -1,0 +1,14 @@
+I use docker restart $(docker ps -q)
+
+    /var/lib/docker/containers/*/*.log {
+        rotate 7
+        daily
+        compress
+        delaycompress
+        copytruncate
+           sharedscripts
+           postrotate
+              /usr/bin/docker restart docker restart $(docker ps -q)
+          endscript
+    }
+

@@ -1,0 +1,136 @@
+DCOS是Mesosphere开发的开源数据中心操作系统，除了mesos分布式内核外还集成marathon和mesos-dns等组件，能够提供完整的服务治理、应用监控、权限管理能力，具体DCOS的使用我会在后面的分享里说明，这篇主要讲如何通过在线的方式快速安装部署DCOS。
+
+1.环境准备
+
+注意！启动节点必须要单独一台，不能和master节点混用，另外master节点也必须是单独一台，不能和slave节点混用。boot节点以后如果DCOS崩溃的时候还可以用来恢复集群。
+
+    单独一台boot节点
+    单独一台master节点
+    3台slave节点
+
+操作系统都要centos7以上版本，集群节点间网络要能互通，boot节点到其他节点要做ssh互信，所有节点都要关闭selinux和防火墙。
+
+2.安装overlayFS Docker
+**注意！**DCOS默认底层存储引擎要用overlayFS格式的，如果是按照devicemapper方式安装的docker在安装DCOS的时候会报错，提示服务器存储空间不够docker启动不起来，这个问题搞了好久，最后还是按照官方的要求重新安装docker才解决。另外说一下所有的节点都需要安装docker，包括boot节点。
+
+
+
+2.1 升级系统内核 
+
+    yum upgrade --assumeyes --tolerant
+    yum update --assumeyes
+
+2.2 验证系统内核是3.1以上版本
+
+   uname -r
+   3.10.0-327.10.1.el7.x86_64
+
+2.3 打开 OverlayFS
+   tee /etc/modules-load.d/overlay.conf <<-'EOF'
+   overlay
+   EOF
+
+2.4 重启系统
+
+reboot
+
+2.5 验证overlayFS是否开启
+
+$ lsmod | grep overlay
+overlay
+
+配置docker yum源
+这个版本的yum 用centos自带的yum源就不行了，需要加一个repo文件
+
+tee /etc/yum.repos.d/docker.repo <<-'EOF'
+[dockerrepo]
+name=Docker Repository
+baseurl=https://yum.dockerproject.org/repo/main/centos/$releasever/
+enabled=1
+gpgcheck=1
+gpgkey=https://yum.dockerproject.org/gpg
+EOF
+
+yum -y install docker-engine
+
+
+// 解决1.12 无法启动问题
+vim /usr/lib/systemd/system/docker.socket
+-----------------------------------------------
+
+[Unit]
+Description=Docker Socket for the API
+PartOf=docker.service
+
+[Socket]
+ListenStream=/var/run/docker.sock
+SocketMode=0660
+SocketUser=root
+SocketGroup=docker
+
+[Install]
+WantedBy=sockets.target
+----------------------------------------------------------
+systemctl daemon-reload
+关闭防火墙
+systemctl disable firewalld
+systemctl stop firewalld
+
+------------------------------------------------------
+systemctl daemon-reload
+
+ip 侦测脚本
+#!/bin/bash
+IPDETECT=`ifconfig enp2s0 |grep inet|grep -v 127.0.0.1|grep -v inet6|awk '{print $2}'|tr -d "addr:"`
+echo "$IPDETECT"
+
+
+安装成功以后配置
+
+
+https://www.projectcalico.org/calico-dcos-demo-security-speed-and-no-more-port-forwarding/https://www.projectcalico.org/calico-dcos-demo-security-speed-and-no-more-port-forwarding/
+
+一容器一ip
+
+
+Step 2: Installing Calico
+
+Calico uses etcd to store various configuration settings. Let’s install etcd with the Universe package manage
+
+
+After a few minutes, etcd will appear on the DC/OS services page. 
+
+
+Mesos-DNS
+
+Calico is compatible with Mesos-DNS, but requires a minor configuration change to preferentially resolve to a container's IP address instead of resolving to its host's. Follow these steps on each master in your cluster to allow containers to be resolvable via their containerized IP:
+
+    Open /opt/mesosphere/etc/mesos-dns.json with any text editor.
+    Find the line that reads: "IPSources": ["host", "netinfo"]
+    Reverse the order of those two fields: "IPSources": ["netinfo", "host"]
+    Restart mesos-dns with: sudo systemctl restart dcos-mesos-dns
+
+
+
+We’ll wait for it to enter a Healthy state with three running tasks before continuing:
+
+With etcd running, we’re ready to install Calico’s DC/OS Package:
+
+The Calico DC/OS Framework installs Calico on each agent in our cluster. It performs the installation one agent at a time to ensure cluster availability is not impacted. We can check the Calico status page as we wait for Calico to converge using the Calico Service link on the services page:
+
+Here, we will see the status of the Calico Scheduler for each Agent in the cluster:
+
+Now that Calico has converged, let’s configure docker networks for the applications we’ll be launching. We can run these docker network configuration commands directly on any agent in the cluster:
+
+
+mesos-agent# docker network create --driver=calico --ipam-driver=calico frontend-net
+mesos-agent# docker network create --driver=calico --ipam-driver=calico database-net
+mesos-agent# docker network ls
+
+NETWORK ID NAME DRIVER
+4a7928145df3 bridge bridge
+0ce2eff6b630 database-net calico
+2e117bd7bda6 frontend-net calico
+7e74ebc175ce host host
+887bb13e8fc9 none null
+
