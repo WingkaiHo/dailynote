@@ -1,0 +1,32 @@
+### 1. Ubuntu开机有时会卡在启动菜单
+```
+   Add: GRUB_RECORDFAIL_TIMEOUT = 15 in /etc/default/grub, and run "sudo
+update-grub". You can change the 15 to any arbitrary number of seconds that
+you like.
+```
+
+2. Ubuntu更改网络配置文件后必须重启
+```
+Solution:
+git clone https://github.com/metral/restore_networking.git
+cd restore_networking/
+./restore_networking.sh
+http://askubuntu.com/questions/441619/how-to-successfully-restart-a-network-without-reboot-over-ssh
+https://github.com/metral/restore_networking
+```
+
+3. Ubuntu 安在RAID的系统上无法开机
+```
+Software-RAID: Where the RAID is created by software.
+Hardware-RAID: A special controller used to build RAID. Hardware RAID is
+generally faster, and does not place load on the CPU, and hardware RAID can be
+used with any OS
+FakeRAID: Since RAID hardware is very expensive, many motherboard
+manufacturers use multi-channel controllers with special BIOS features to
+perform RAID. This is a form of software RAID using special drivers, and it is
+not necessarily faster than true software RAID. Read FakeRaidHowto for
+details.
+
+https://help.ubuntu.com/community/Installation/SoftwareRAID
+
+```
