@@ -1,0 +1,157 @@
+Download the redsocks source code and compile it:
+
+```
+# cd /opt/src
+# git clone https://github.com/darkk/redsocks.git
+# cd redsocks
+# apt-get install libevent-dev
+# make
+
+```
+Write configuration files:
+
+```
+# cat redsocks.sh
+#! /bin/sh
+
+case "$1" in
+  start|"")
+    cd /opt/src/redsocks
+    if [ -e redsocks.log ] ; then
+      rm redsocks.log
+    fi
+    ./redsocks -p /opt/src/redsocks/redsocks.pid #set daemon = on in config
+file
+    # start redirection
+    iptables -t nat -A OUTPUT -p tcp --dport 80 -j REDIRECT --to 12345
+    iptables -t nat -A OUTPUT -p tcp --dport 443 -j REDIRECT --to 12345
+    ;;
+
+  stop)
+    cd /opt/src/redsocks
+    if [ -e redsocks.pid ]; then
+      kill `cat redsocks.pid`
+      rm redsocks.pid
+    else
+      echo already killed, anyway, I will try killall
+      killall -9 redsocks
+    fi
+    # stop redirection
+    iptables -t nat -F OUTPUT
+    ;;
+
+  start_ssh)
+    #ssh -NfD 1234 user@example.cc #TODO: change it!!!
+    ssh -NfD 1234 544644af4382ec37bc0009da@weatherapp-kkkttt.rhcloud.com
+    ;;
+
+  stop_ssh)
+    ps aux|grep "ssh -NfD 1234"|awk '{print $2}'|xargs kill
+    ;;
+
+  clean_dns)
+    iptables -A INPUT -p udp --sport 53 -m state --state ESTABLISHED -m gfw -j
+DROP -m comment --comment "drop gfw dns hijacks"
+    ;;
+
+  *)
+    echo "Usage: redsocks start|stop|start_ssh|stop_ssh|clean_dns" >&2
+    exit 3
+    ;;
+esac
+# cat redsocks.conf
+base {
+        // debug: connection progress & client list on SIGUSR1
+        log_debug = on;
+
+        // info: start and end of client session
+        log_info = on;
+
+        /* possible `log' values are:
+         *   stderr
+         *   file:/path/to/file
+         *   syslog:FACILITY  facility is any of "daemon", "local0"..."local7"
+         */
+        log = stderr;
+
+        // detach from console
+        daemon = on;
+
+        /* Change uid, gid and root directory, these options require root
+         * privilegies on startup.
+         * Note, your chroot may requre /etc/localtime if you write log to
+           syslog.
+         * Log is opened before chroot & uid changing.
+         */
+        // user = nobody;
+        // group = nobody;
+        // chroot = "/var/chroot";
+
+        /* possible `redirector' values are:
+         *   iptables   - for Linux
+         *   ipf        - for FreeBSD
+         *   pf         - for OpenBSD
+         *   generic    - some generic redirector that MAY work
+         */
+        redirector = iptables;
+}
+
+redsocks {
+        /* `local_ip' defaults to 127.0.0.1 for security reasons,
+         * use 0.0.0.0 if you want to listen on every interface.
+         * `local_*' are used as port to redirect to.
+         */
+        local_ip = 127.0.0.1;
+        local_port = 12345;
+
+        // `ip' and `port' are IP and tcp-port of proxy-server
+        ip = 127.0.0.1;
+        port = 1234;
+
+        // known types: socks4, socks5, http-connect, http-relay
+        type = socks5;
+}
+
+
+```
+Everytime you use the redsocks, enable it via:
+
+```
+# ./redsocks.sh start_ssh
+# ./redsocks.sh start
+
+```
+Disable it via:
+
+```
+# ./redsocks.sh stop
+# ./redsocks.sh stop_ssh
+
+```
+
+### Run ChromeOS in kvm
+Now Transfer the image to image for vm:
+
+```
+$ export BOARD=amd64-generic
+(cr) dasdh@BuildMaasImage ~/trunk/src/build/images/amd64-generic/latest $ cd
+~/trunk/src/scripts/
+(cr) ((df83602...)) dasdh@BuildMaasImage ~/trunk/src/scripts $
+./image_to_vm.sh --board=${BOARD}
+Resizing stateful partition to 3072MB
+
+```
+Verify if kvm is supported on your system:
+
+```
+dasdh@BuildMaasImage:~/src/scripts$ kvm-ok
+INFO: /dev/kvm exists
+KVM acceleration can be used
+
+```
+Now run via:
+
+```
+$ cd ~/chromiumos/src/scripts
+$ ./bin/cros_start_vm
+--image_path=../build/images/${BOARD}/latest/chromiumos_qemu_image.bin

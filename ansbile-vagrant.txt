@@ -1,0 +1,4 @@
+1. 参考网站
+
+https://sysadmincasts.com/episodes/45-learning-ansible-with-vagrant-part-2-4
+https://galaxy.ansible.com/list#/roles?page=1&page_size=10&autocomplete=ceph

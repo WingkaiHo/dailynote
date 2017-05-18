@@ -1,0 +1,14 @@
+https://www.reddit.com/r/ansible/comments/2ggn4z/ansible_tower_alternative/
+
+http://www.tuicool.com/articles/zuI3ua
+
+http://www.oschina.net/p/rundeck
+
+http://gunner.me/archives/488
+
+http://stackoverflow.com/questions/21869912/prevent-simultaneous-deploys-with-ansible/25769389#25769389
+
+
+tips
+http://purplepalmdash.github.io/2015/12/07/rundeck-tips/
+

@@ -1,0 +1,2 @@
+https://github.com/barraq/pandoc-moderncv
+https://mszep.github.io/pandoc_resume/
