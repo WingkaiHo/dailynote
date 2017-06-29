@@ -1,0 +1,1 @@
+oppenvpn --config ./vpn.ovpn

@@ -1,0 +1,41 @@
+1. NFS服务器端安装
+
+1.1 安装nf-server 和 rpc-bind相关的包
+```
+$ yum install rpcbind nfs-utils -y
+```
+
+1.2 设置nfs相关服务在操作系统启动时启动
+```
+$ systemctl enable rpcbind
+$ systemctl enable nfs-server
+$ systemctl enable nfs-lock
+$ systemctl enable nfs-idmap  
+```
+
+1.3 配置NFS导出的卷， 即编辑`/etc/exports`
+```
+vim /etc/exports
+
+/home/nfs    192.168.0.0/16(rw,sync,no_root_squash,no_subtree_check)
+```
+
+1.4 启动NFS服务
+```
+systemctl start rpcbind
+systemctl start nfs-server
+systemctl start nfs-lock
+systemctl start nfs-idmap
+```
+
+2. 客户端挂载nfs
+
+2.1 创建nfs目录
+```
+$ mkdir /nfs
+```
+
+2.2 把NFS挂载到目录上
+```
+$ mount -t nfs  192.168.15.141:/home/nfs /nfs
+```
