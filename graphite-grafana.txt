@@ -48,3 +48,39 @@ GRAPHITE_HOST:  前面设置的graphite机器的地址 - name: add ip address of
           line: "{{ hostvars[item].ansible_host }} {{ hostvars[item].inventory_hostname }}"
           state: present
           with_items: "{{ groups.all }}"
+
+
+### grafana 自动加载dashboard， 以及datasource
+
+1) 把所有json dashboard页面拷贝到目录/var/lib/grafana/dashboards/
+```
+$ cp *.json /var/lib/grafana/dashboards/
+```
+
+2) 覆盖默认的数据库
+```
+$ grafana.db /var/lib/grafana/
+```
+
+3) 修改匿名登陆
+```
+[auth.anonymous]
+# enable anonymous access
+enabled = true
+```
+
+4) 修改默认配色
+```
+[users]
+default_theme = light
+```
+
+
+
+6) docker run
+```
+$ docker run -d --name=grafana -p 3000:3000 \
+    -v /home/grafana/etc/grafana/grafana.ini:/etc/grafana/grafana.ini \
+    -v /home/grafana/var/lib/grafana/grafana.db:/var/lib/grafana/grafana.db \ 
+    grafana/grafana:4.2.0
+```
