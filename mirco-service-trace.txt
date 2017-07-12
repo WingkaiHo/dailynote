@@ -1,0 +1,8 @@
+#1. 分布式微服务跟中系统
+1.1 spring cloud 服务调用跟中
+      https://my.oschina.net/lhztt/blog/795307
+      http://cloud.spring.io/spring-cloud-sleuth/1.0.x/#_sleuth_with_zipkin_via_http
+      https://yq.aliyun.com/articles/60165
+
+spring cloud 和zipkin整合实例
+      http://zipkin.io/pages/existing_instrumentations.html 

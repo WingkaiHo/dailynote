@@ -1,0 +1,6 @@
+1. graphie 
+
+/opt/graphite/storage/whisper -type f -mtime +120 -name \*.wsp -delete; find
+/opt/graphite/storage/whisper -depth -type d -empty -delete
+
+删除120天没有写入的指标，并且删除目录
