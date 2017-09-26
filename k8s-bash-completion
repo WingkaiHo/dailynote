@@ -1,0 +1,5 @@
+### k8s kubectl auto completion
+```
+source <(kubectl completion bash)
+echo "source <(kubectl completion bash)" >> ~/.bashrc
+```
