@@ -1,0 +1,16 @@
+Ubuntu11.04的VIM的默认颜色难看死了，蓝色的注释基本上看不到。
+
+查看有多少配色方案：
+
+$ ls /usr/share/vim/vim73/colors
+ 发现有以下文件
+
+blue.vim      delek.vim    evening.vim  murphy.vim     README.txt  slate.vim
+darkblue.vim  desert.vim   koehler.vim  pablo.vim      ron.vim     torte.vim
+default.vim   elflord.vim  morning.vim  peachpuff.vim  shine.vim   zellner.vim
+
+
+
+$ vim ~/.vimrc
+:set nu
+:colorscheme desert
