@@ -1,0 +1,13 @@
+该命令会导出包括系统数据库在内的所有数据库
+
+mysqldump -uroot -proot --all-databases >/tmp/all.sql
+2.导出db1、db2两个数据库的所有数据
+
+mysqldump -uroot -proot --databases db1 db2 >/tmp/user.sql
+
+
+3.导出db1中的a1、a2表
+
+注意导出指定表只能针对一个数据库进行导出，且导出的内容中和导出数据库也不一样，导出指定表的导出文本中没有创建数据库的判断语句，只有删除表-创建表-导入数据
+
+mysqldump -uroot -proot --databases db1 --tables a1 a2  >/tmp/db1.sql
