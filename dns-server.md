@@ -21,6 +21,8 @@ cache-size=1024
 listen-address=192.168.0.1,127.0.0.1
 #dns host-file读取路径，在线监听此目录更新
 hostsdir=/etc/dnsmasq.d/
+# 配置上游dns服务服务
+resolv-file=/etc/resolv.dnsmasq.conf
 ```
 
 ### 添加域名
@@ -31,6 +33,13 @@ hostsdir=/etc/dnsmasq.d/
 192.168.10.12 user.authentication.local
 192.168.10.13 service.mysql.local
 ```
+
+### 添加上游dns
+编辑`/etc/resolv.dnsmasq.conf` 文件添加上游dns
+```
+nameserver 114.114.114.114
+```
+
 
 ### 启动/重新启动服务
 配置开机启动服务
