@@ -1,0 +1,2 @@
+1. 获取进程socker数目
+ls -l /proc/pid/fd | fgrep socket

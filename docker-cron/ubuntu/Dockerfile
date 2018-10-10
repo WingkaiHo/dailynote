@@ -1,7 +1,8 @@
 FROM ubuntu:16.04
 
 RUN apt-get update && \
-apt-get install -y --no-install-recommends cron
+apt-get install -y --no-install-recommends cron && \
+rm -rf /var/lib/apt/lists/*
 
 # copy your cron file to / 
 # the cron file like this  */1 * * * * your-script.sh param1 param2
@@ -14,5 +15,4 @@ apt-get install -y --no-install-recommends cron
 # COPY your-script.sh /usr/bin
 
 CMD ["cron", "-f"]
-RUN apt-get clean
 RUN sed -i -e '/pam_loginuid.so/s/^/#/' /etc/pam.d/cron

@@ -22,10 +22,10 @@ vim /etc/exports
 
 1.4 启动NFS服务
 ```
-systemctl start rpcbind
-systemctl start nfs-server
-systemctl start nfs-lock
-systemctl start nfs-idmap
+systemctl restart rpcbind
+systemctl restart nfs-server
+systemctl restart nfs-lock
+systemctl restart nfs-idmap
 ```
 
 2. 客户端挂载nfs

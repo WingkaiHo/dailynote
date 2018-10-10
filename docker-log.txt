@@ -1,0 +1,7 @@
+
+docker get log
+GET /containers/(container
+id)/logs?stderr=1&stdout=1&timestamps=1&since="UNIX时间戳"
+
+http://ip:2375/containers/id/logs?stderr=1&stdout=1&timestamps=1&since="UNIX时间戳"&tail=
+
