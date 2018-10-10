@@ -26,7 +26,7 @@
 
 **测试**
   进入nodejs项目：
-  npm --registry=http://172.25.52.217:8081/repository/npm-public/ install
+  npm --registry=http://ip:8081/repository/npm-public/ install
 
 ### 添加maven 仓库配置
    
