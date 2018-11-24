@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: grpc-server
+  labels:
+    svc: grpc-server
+spec:
+  ports:
+  - name: grpc
+    port: 50051
+    protocol: TCP
+  selector:
+    app: grpc-server
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: grpc-server-app
+  labels:
+    app: grpc-server
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: grpc-server
+        version: v1
+    spec:
+      containers:
+      - name: grpc-server
+        image: wingkaiho/grpc-server-test:1.0
+        ports:
+        - containerPort: 50051
+

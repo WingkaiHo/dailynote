@@ -1,0 +1,8 @@
+
+#### 配置node节点调度/不调度
+
+**配置node节点不调度**
+kubectl taint nodes <node-name> node-role.kubernetes.io/node=:NoSchedule
+
+**配置node节点恢复以后调度**
+kubectl taint nodes <node-name> node-role.kubernetes.io/node:NoSchedule-
