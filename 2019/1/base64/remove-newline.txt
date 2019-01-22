@@ -1,0 +1,4 @@
+#### How to remove newline from output?
+
+
+cat /path/to/your/file | base64 | tr -d '\n'
