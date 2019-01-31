@@ -1,0 +1,28 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: strest-client
+  namespace: istio-proxy1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: strest-client
+  template:
+    metadata:
+      labels:
+        app: strest-client
+      annotations:
+        sidecar.istio.io/inject: "true"
+    spec:
+      nodeSelector:
+        classify: cpu
+      containers:
+      - name: strest-client
+        image: buoyantio/strest-grpc:latest
+        command:
+        - /bin/sh
+        stdin: true
+        tty: true
+

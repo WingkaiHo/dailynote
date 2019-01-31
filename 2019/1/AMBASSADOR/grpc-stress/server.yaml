@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: strest-server
+  namespace: istio-proxy1
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: strest-server
+  template:
+    metadata:
+      labels:
+        app: strest-server
+    spec:
+      nodeSelector:
+        classify: cpu
+      containers:
+      - name: strest-server
+        image: buoyantio/strest-grpc:latest
+        args:
+        - "server"
+        - "--address=:11111"
+        ports:
+        - name: grpc
+          containerPort: 11111
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: strest-server
+  annotations:
+    getambassador.io/config: |
+      apiVersion: ambassador/v0
+      kind: Mapping
+      name: grpc-stress-mapping
+      grpc: True
+      prefix: /strest.Responder/
+      rewrite: /strest.Responder/
+      service: strest-server.istio-proxy1.svc.cluster.local:11111
+spec:
+  clusterIP: None
+  selector:
+    app: strest-server
+  ports:
+  - name: grpc
+    port: 11111
+
