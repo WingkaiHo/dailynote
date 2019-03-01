@@ -1,0 +1,98 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: grpc-server
+  labels:
+    svc: grpc-server
+  annotations:
+    getambassador.io/config: |
+      ---
+      apiVersion: ambassador/v0
+      kind: Mapping
+      name: grpc-server-mapping
+      grpc: True
+      prefix: /helloworld.Greeter/
+      rewrite: /helloworld.Greeter/
+      service: grpc-server.istio-proxy1.svc.cluster.local:50051
+spec:
+  clusterIP: None
+  ports:
+  - name: grpc
+    port: 50051
+    targetPort: 50051
+    protocol: TCP
+  selector:
+    app: grpc-server
+    version: v1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grpc-server-canary
+  labels:
+    svc: grpc-server
+  annotations:
+    getambassador.io/config: |
+      ---
+      apiVersion: ambassador/v0
+      kind: Mapping
+      name: grpc-server-mapping-canary
+      grpc: True
+      prefix: /helloworld.Greeter/
+      rewrite: /helloworld.Greeter/
+      service: grpc-server-canary.istio-proxy1.svc.cluster.local:50051
+      weight: 20
+spec:
+  clusterIP: None
+  ports:
+  - name: grpc
+    port: 50051
+    targetPort: 50051
+    protocol: TCP
+  selector:
+    app: grpc-server
+    version: v1-1
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: grpc-server-app-v1
+  labels:
+    app: grpc-server
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: grpc-server
+        version: v1
+    spec:
+      nodeSelector:
+        classify: cpu
+      containers:
+      - name: grpc-server
+        image: docker.tupu.ai/tupu/grpc-server-test:1.0
+        ports:
+        - containerPort: 50051
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: grpc-server-app-v1-1
+  labels:
+    app: grpc-server
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: grpc-server
+        version: v1-1
+    spec:
+      nodeSelector:
+        classify: cpu
+      containers:
+      - name: grpc-server
+        image: docker.tupu.ai/tupu/grpc-server-test:1.1
+        ports:
+        - containerPort: 50051

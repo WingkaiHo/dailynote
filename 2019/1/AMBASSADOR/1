@@ -1,0 +1,145 @@
+
+工作负载0ms每个请求
+/ # /go/bin/strest-grpc client --address 10.234.3.172:11111 --latencyUnit us --totalRequests 1000
+{
+  "good": 1000,
+  "bad": 0,
+  "bytes": 0,
+  "latency": {
+    "p50": 125,
+    "p75": 134,
+    "p90": 146,
+    "p95": 157,
+    "p99": 295,
+    "p999": 1321
+  },
+  "jitter": {
+    "p50": 0,
+    "p75": 0,
+    "p90": 0,
+    "p95": 0,
+    "p99": 0,
+    "p999": 0
+  }
+}
+/ # /go/bin/strest-grpc client --address ambassador.basic.svc.cluster.local:80 --latencyUnit us --totalRequests 1000
+{
+  "good": 100,
+  "bad": 0,
+  "bytes": 0,
+  "latency": {
+    "p50": 547,
+    "p75": 610,
+    "p90": 661,
+    "p95": 673,
+    "p99": 1682,
+    "p999": 5431
+  },
+  "jitter": {
+    "p50": 0,
+    "p75": 0,
+    "p90": 0,
+    "p95": 0,
+    "p99": 0,
+    "p999": 0
+  }
+}
+
+
+工作负载10ms每个请求
+/ # /go/bin/strest-grpc client --address 10.234.27.250:11111 --latencyUnit us --totalRequests 1000
+{
+  "good": 1000,
+  "bad": 0,
+  "bytes": 0,
+  "latency": {
+    "p50": 5491,
+    "p75": 7543,
+    "p90": 9423,
+    "p95": 9519,
+    "p99": 9591,
+    "p999": 9831
+  },
+  "jitter": {
+    "p50": 0,
+    "p75": 0,
+    "p90": 0,
+    "p95": 0,
+    "p99": 0,
+    "p999": 0
+  }
+}
+
+
+/ # /go/bin/strest-grpc client --address ambassador.basic.svc.cluster.local:80 --latencyUnit us --totalRequests 1000
+{
+  "good": 1000,
+  "bad": 0,
+  "bytes": 0,
+  "latency": {
+    "p50": 5903,
+    "p75": 8071,
+    "p90": 9919,
+    "p95": 10007,
+    "p99": 10143,
+    "p999": 10319
+  },
+  "jitter": {
+    "p50": 0,
+    "p75": 0,
+    "p90": 0,
+    "p95": 0,
+    "p99": 0,
+    "p999": 0
+  }
+}
+
+
+/ # /go/bin/strest-grpc client --address ambassador.basic.svc.cluster.local:80 --latencyUnit us --totalRequests 10000 --connections 10 
+{
+  "good": 10000,
+  "bad": 0,
+  "bytes": 0,
+  "latency": {
+    "p50": 5743,
+    "p75": 8147,
+    "p90": 9719,
+    "p95": 10167,
+    "p99": 10559,
+    "p999": 16655
+  },
+  "jitter": {
+    "p50": 0,
+    "p75": 0,
+    "p90": 0,
+    "p95": 0,
+    "p99": 0,
+    "p999": 0
+  }
+}
+
+
+/go/bin/strest-grpc client --address ambassador.basic.svc.cluster.local:80 --latencyUnit us --totalRequests 10000 --connections 10 --totalTargetRps=1000
+2019-02-18T10:34:56Z   0    0.0B   9000/0 10s L: 472 [10207 10415 ] 64913 J:   0   0
+{
+  "good": 10000,
+  "bad": 0,
+  "bytes": 0,
+  "latency": {
+    "p50": 5799,
+    "p75": 8187,
+    "p90": 9823,
+    "p95": 10207,
+    "p99": 10423,
+    "p999": 64927
+  },
+  "jitter": {
+    "p50": 0,
+    "p75": 0,
+    "p90": 0,
+    "p95": 0,
+    "p99": 0,
+    "p999": 0
+  }
+}
+

@@ -1,0 +1,360 @@
+connect count 1
+
+Summary:
+  Count:	10000
+  Total:	1.67 s
+  Slowest:	1.45 ms
+  Fastest:	0.11 ms
+  Average:	0.14 ms
+  Requests/sec:	5976.41
+
+Response time histogram:
+  0.107 [1]	|
+  0.242 [9815]	|∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎
+  0.376 [132]	|∎
+  0.511 [32]	|
+  0.646 [8]	|
+  0.780 [5]	|
+  0.915 [2]	|
+  1.050 [2]	|
+  1.184 [1]	|
+  1.319 [1]	|
+  1.454 [1]	|
+
+Latency distribution:
+  10% in 0.12 ms 
+  25% in 0.12 ms 
+  50% in 0.13 ms 
+  75% in 0.14 ms 
+  90% in 0.15 ms 
+  95% in 0.17 ms 
+  99% in 0.31 ms 
+Status code distribution:
+  [OK]   10000 responses   
+
+
+
+connect count 2
+
+Summary:
+  Count:	10000
+  Total:	1.08 s
+  Slowest:	1.25 ms
+  Fastest:	0.11 ms
+  Average:	0.19 ms
+  Requests/sec:	9285.38
+
+Response time histogram:
+  0.111 [1]	|
+  0.224 [9041]	|∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎
+  0.338 [742]	|∎∎∎
+  0.451 [171]	|∎
+  0.565 [26]	|
+  0.678 [14]	|
+  0.792 [2]	|
+  0.905 [1]	|
+  1.019 [0]	|
+  1.132 [0]	|
+  1.246 [2]	|
+
+Latency distribution:
+  10% in 0.16 ms 
+  25% in 0.17 ms 
+  50% in 0.17 ms 
+  75% in 0.18 ms 
+  90% in 0.22 ms 
+  95% in 0.25 ms 
+  99% in 0.38 ms 
+Status code distribution:
+  [OK]   10000 responses   
+
+
+
+connect count 3
+
+Summary:
+  Count:	9999
+  Total:	953.98 ms
+  Slowest:	0.91 ms
+  Fastest:	0.13 ms
+  Average:	0.26 ms
+  Requests/sec:	10481.33
+
+Response time histogram:
+  0.125 [1]	|
+  0.204 [385]	|∎∎
+  0.283 [8634]	|∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎
+  0.362 [583]	|∎∎∎
+  0.440 [171]	|∎
+  0.519 [156]	|∎
+  0.598 [39]	|
+  0.677 [14]	|
+  0.755 [11]	|
+  0.834 [3]	|
+  0.913 [2]	|
+
+Latency distribution:
+  10% in 0.24 ms 
+  25% in 0.24 ms 
+  50% in 0.25 ms 
+  75% in 0.25 ms 
+  90% in 0.28 ms 
+  95% in 0.34 ms 
+  99% in 0.50 ms 
+Status code distribution:
+  [OK]   9999 responses   
+
+
+
+connect count 4
+
+Summary:
+  Count:	10000
+  Total:	784.30 ms
+  Slowest:	1.43 ms
+  Fastest:	0.12 ms
+  Average:	0.29 ms
+  Requests/sec:	12750.29
+
+Response time histogram:
+  0.119 [1]	|
+  0.250 [2919]	|∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎
+  0.381 [6293]	|∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎
+  0.513 [643]	|∎∎∎∎
+  0.644 [101]	|∎
+  0.775 [29]	|
+  0.906 [8]	|
+  1.037 [2]	|
+  1.168 [0]	|
+  1.300 [0]	|
+  1.431 [4]	|
+
+Latency distribution:
+  10% in 0.24 ms 
+  25% in 0.25 ms 
+  50% in 0.26 ms 
+  75% in 0.30 ms 
+  90% in 0.36 ms 
+  95% in 0.43 ms 
+  99% in 0.55 ms 
+Status code distribution:
+  [OK]   10000 responses   
+
+
+
+connect count 5
+
+Summary:
+  Count:	10000
+  Total:	721.97 ms
+  Slowest:	1.05 ms
+  Fastest:	0.12 ms
+  Average:	0.33 ms
+  Requests/sec:	13851.03
+
+Response time histogram:
+  0.117 [1]	|
+  0.209 [52]	|
+  0.302 [4612]	|∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎
+  0.395 [3734]	|∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎
+  0.488 [1086]	|∎∎∎∎∎∎∎∎∎
+  0.581 [282]	|∎∎
+  0.674 [138]	|∎
+  0.767 [51]	|
+  0.860 [29]	|
+  0.953 [10]	|
+  1.045 [5]	|
+
+Latency distribution:
+  10% in 0.26 ms 
+  25% in 0.28 ms 
+  50% in 0.31 ms 
+  75% in 0.36 ms 
+  90% in 0.42 ms 
+  95% in 0.49 ms 
+  99% in 0.67 ms 
+Status code distribution:
+  [OK]   10000 responses   
+
+
+
+connect count 6
+
+Summary:
+  Count:	9996
+  Total:	732.02 ms
+  Slowest:	2.57 ms
+  Fastest:	0.13 ms
+  Average:	0.41 ms
+  Requests/sec:	13655.37
+
+Response time histogram:
+  0.127 [1]	|
+  0.372 [6440]	|∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎
+  0.616 [2748]	|∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎
+  0.861 [359]	|∎∎
+  1.105 [228]	|∎
+  1.350 [173]	|∎
+  1.594 [25]	|
+  1.839 [6]	|
+  2.083 [8]	|
+  2.327 [7]	|
+  2.572 [1]	|
+
+Latency distribution:
+  10% in 0.30 ms 
+  25% in 0.32 ms 
+  50% in 0.35 ms 
+  75% in 0.41 ms 
+  90% in 0.54 ms 
+  95% in 0.78 ms 
+  99% in 1.23 ms 
+Status code distribution:
+  [OK]   9996 responses   
+
+
+
+connect count 7
+
+Summary:
+  Count:	9996
+  Total:	633.82 ms
+  Slowest:	5.48 ms
+  Fastest:	0.13 ms
+  Average:	0.41 ms
+  Requests/sec:	15771.15
+
+Response time histogram:
+  0.129 [1]	|
+  0.664 [9585]	|∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎
+  1.199 [407]	|∎∎
+  1.734 [1]	|
+  2.270 [0]	|
+  2.805 [0]	|
+  3.340 [0]	|
+  3.875 [0]	|
+  4.411 [0]	|
+  4.946 [0]	|
+  5.481 [2]	|
+
+Latency distribution:
+  10% in 0.33 ms 
+  25% in 0.35 ms 
+  50% in 0.38 ms 
+  75% in 0.43 ms 
+  90% in 0.52 ms 
+  95% in 0.63 ms 
+  99% in 0.81 ms 
+Status code distribution:
+  [OK]   9996 responses   
+
+
+
+connect count 8
+
+Summary:
+  Count:	10000
+  Total:	592.33 ms
+  Slowest:	1.64 ms
+  Fastest:	0.15 ms
+  Average:	0.44 ms
+  Requests/sec:	16882.58
+
+Response time histogram:
+  0.150 [1]	|
+  0.300 [77]	|
+  0.449 [7456]	|∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎
+  0.598 [1762]	|∎∎∎∎∎∎∎∎∎
+  0.748 [349]	|∎∎
+  0.897 [277]	|∎
+  1.046 [51]	|
+  1.196 [11]	|
+  1.345 [14]	|
+  1.494 [1]	|
+  1.644 [1]	|
+
+Latency distribution:
+  10% in 0.37 ms 
+  25% in 0.39 ms 
+  50% in 0.42 ms 
+  75% in 0.45 ms 
+  90% in 0.54 ms 
+  95% in 0.68 ms 
+  99% in 0.87 ms 
+Status code distribution:
+  [OK]   10000 responses   
+
+
+
+connect count 9
+
+Summary:
+  Count:	9999
+  Total:	645.90 ms
+  Slowest:	50.96 ms
+  Fastest:	0.16 ms
+  Average:	0.54 ms
+  Requests/sec:	15480.81
+
+Response time histogram:
+  0.156 [1]	|
+  5.237 [9991]	|∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎
+  10.317 [0]	|
+  15.397 [0]	|
+  20.477 [0]	|
+  25.558 [0]	|
+  30.638 [0]	|
+  35.718 [0]	|
+  40.799 [0]	|
+  45.879 [0]	|
+  50.959 [7]	|
+
+Latency distribution:
+  10% in 0.41 ms 
+  25% in 0.44 ms 
+  50% in 0.47 ms 
+  75% in 0.53 ms 
+  90% in 0.66 ms 
+  95% in 0.80 ms 
+  99% in 1.02 ms 
+Status code distribution:
+  [OK]   9999 responses   
+
+
+
+connect count 10
+
+Summary:
+  Count:	10000
+  Total:	580.22 ms
+  Slowest:	1.63 ms
+  Fastest:	0.16 ms
+  Average:	0.55 ms
+  Requests/sec:	17234.77
+
+Response time histogram:
+  0.163 [1]	|
+  0.310 [52]	|
+  0.457 [1368]	|∎∎∎∎∎∎∎∎
+  0.603 [6518]	|∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎
+  0.750 [1299]	|∎∎∎∎∎∎∎∎
+  0.897 [413]	|∎∎∎
+  1.044 [250]	|∎∎
+  1.191 [74]	|
+  1.337 [15]	|
+  1.484 [6]	|
+  1.631 [4]	|
+
+Latency distribution:
+  10% in 0.45 ms 
+  25% in 0.49 ms 
+  50% in 0.51 ms 
+  75% in 0.58 ms 
+  90% in 0.70 ms 
+  95% in 0.84 ms 
+  99% in 1.04 ms 
+Status code distribution:
+  [OK]   10000 responses   
+
+
+

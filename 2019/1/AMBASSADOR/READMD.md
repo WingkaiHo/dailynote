@@ -2,8 +2,8 @@
 
 AMBASSADOR 做为一个对象网关， 与反向代理不用之处是. 
 
-- 方向代理： envoy里面配置多个host， 不用host有不同upstream app
-- 对象网关： envoy里面只用一个default host, 不用path对应不用upstream app
+- 反向向代理： envoy里面配置多个host， 不用host有不同upstream app
+- 对象网关： envoy里面只用一个default host, 不同的path对应不用upstream app
 
 #### 获取app service名称
 本例子使用google.golang.org/grpc项目helloworld为部署例子.
