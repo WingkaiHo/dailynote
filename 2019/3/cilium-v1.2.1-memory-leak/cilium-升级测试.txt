@@ -1,0 +1,154 @@
+#### 目标和目的
+
+目标:
+1. 解决当前cilium-1.2.1版本内存泄漏问题.
+2.
+解决当节点增加以后大量创建/删除pod时候出现网络组件cpu占用高的问题.【CiliumEndpointCRD和apiserver的交互达到apiserver过多高导致】
+当前版本：cilium:v1.2.1
+更新版本: cilium:v1.2.5
+
+目的：
+  解决生产环境进节点和pod进一步扩大， 更新次数增加时候导致超过cpu使用率高， 内存k8s限制(2G)导致实例重新启动问题
+
+参考：
+
+1) 解决内存泄漏问题
+https://github.com/cilium/cilium/issues/5961
+Cilium agent memory leak
+his was indeed a memory leak and has been fixed by the commit #5919. The fix will be released in 1.2.5 and 1.3.0.
+envoy: Pass nil completion if Acks are not expected (解决Memory leak)
+
+2） 解决当节点增加以后大量创建/删除pod时候出现网络组件cpu占用高的问题
+https://github.com/cilium/cilium/issues/5913
+可以通过`--disable-endpoint-crd`, 目前我不需要这个特性
+
+当前生产环境cilium监控图
+![cilium监控.png](./cilium监控.png) 
+
+参考https://github.com/cilium/cilium/issues/5913 更新以前更新以后cpu使用/内存使用变化
+
+We also collected some data from the moment we instantiate 200 nodes. Knowing that the use of resources would increase
+in the workers during the generation of the BPF program, we thought that after the stabilization of the cluster, the use
+of CPU would normalize, which did not happen. Take a look at the following chart.
+
+![v1.2.3-cpu](https://user-images.githubusercontent.com/11253021/47111477-0d654480-d22a-11e8-8572-8cf0136c3dc8.png
+)
+![v 1.2.3 ](https://user-images.githubusercontent.com/11253021/47111478-0dfddb00-d22a-11e8-9cd8-bb3ee28c27fb.png)
+
+升级v1.2.5升级使用--disable-endpoint-crd
+
+![1.2.5-cpu](https://user-images.githubusercontent.com/11253021/47236454-9a3b0a00-d3b2-11e8-9ef8-63b685d597d9.png)
+
+![1.2.5-cpu1](https://user-images.githubusercontent.com/11253021/47236463-a030eb00-d3b2-11e8-9623-fb46544779c7.png)
+
+
+
+
+
+#### 测试部署
+
+最好情况下修改`cilium-ds.yml`， 通过kubectl更新到k8s集群上， 这个情况最安全的。首先通过kubespray搭建生产一样集群。
+在集群更新cilium 1.2.1 的到cilium 1.2.3
+
+
+1） 测试升级时候pod网络是否有中断
+
+部署两个实例的deployment如下：
+```
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: load-generator1
+  name: load-generator1
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 2
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      run: load-generator1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: load-generator1
+    spec:
+      containers:
+      - args:
+        - /bin/sh
+        image: centos:7
+        imagePullPolicy: IfNotPresent
+        name: load-generator1
+        resources: {}
+        stdin: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        tty: true
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+```
+
+2） 测试更新网络模块过程中是pod否有网络中断
+
+获取pod信息
+```
+$kubectl get pod 
+NAME                               READY     STATUS    RESTARTS   AGE       IP             NODE      NOMINATED NODE
+load-generator1-5755ff656b-pzv29   1/1       Running   0          2h        10.234.0.105   node4     <none>
+load-generator1-5755ff656b-r8hv7   1/1       Running   0          2h        10.234.1.157   node3     <none>
+```
+进入容器1）
+```
+$kubectl exec -it load-generator1-5755ff656b-pzv29 bash
+$ping 10.234.1.157
+```
+
+进入容器2）
+```
+$kubectl exec -it load-generator1-5755ff656b-r8hv7 bash
+$ ping 10.234.0.105
+```
+
+在整个升级过程中ping没有中断。
+
+3) 更新cilium
+
+```
+sudo vim /etc/kubernetes/cilium-ds.yml
+...
+- image: docker.io/cilium/cilium:v1.2.5
+          imagePullPolicy: Always
+          name: cilium-agent
+          command: ["cilium-agent"]
+          args:
+            - "--debug=$(CILIUM_DEBUG)"
+            - "--kvstore=etcd"
+            - "--kvstore-opt=etcd.config=/var/lib/etcd-config/etcd.config"
+            - "--disable-ipv4=$(DISABLE_IPV4)"
+            - "--disable-endpoint-crd=true"
+...
+```
+执行kubectl更新
+```
+$kubectl apply -f /etc/kubernetes/cilium-ds.yml -n kube-system
+```
+
+
+#### 结论
+
+1. 可以直接修改`cilium-ds.yml`， 通过kubectl更新到k8s集群上。
+2. 在升加过程中不影响pod网络通信.
+3. 需要多运行几天
+
+风险:
+
+1. 升级过程中节点出现创建pod失败问题。
